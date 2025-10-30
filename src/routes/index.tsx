@@ -1,83 +1,81 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { Link } from '@tanstack/react-router'
-import { useState, useEffect } from 'react'
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { motion } from 'motion/react';
+import { useState } from 'react';
+
+import { Quotes } from '@/components/home/quotes';
+import { Button } from '@/components/ui/button';
+import { UserDrawerDialog } from '@/components/user-drawer-dialog';
+import { defaultPlayerName } from '@/lib/constants';
+import { useGameStore } from '@/stores/game-store';
 
 export const Route = createFileRoute('/')({
-  component: App,
-})
+  component: Index,
+});
 
-function App() {
-  const [diceAnimation, setDiceAnimation] = useState(false)
-  const [currentMessage, setCurrentMessage] = useState(0)
+function Index() {
+  const [showNameForm, setShowNameForm] = useState(false);
+  const resetGame = useGameStore((state) => state.resetGame);
+  const playerName = useGameStore((state) => state.player.name);
+  const highestScore = useGameStore((state) => state.highestScore);
 
-  const funnyMessages = [
-    '🎲 Where luck meets skill... mostly luck though',
-    '🎯 Five dice, infinite possibilities, questionable decisions',
-    '⚡ Roll your way to glory (or spectacular failure)',
-    '🏆 Yahtzee: Making statisticians cry since 1956',
-  ]
+  const navigate = useNavigate({ from: '/' });
 
-  useEffect(() => {
-    const messageInterval = setInterval(() => {
-      setCurrentMessage((prev) => (prev + 1) % funnyMessages.length)
-    }, 5000)
+  function handleClick() {
+    resetGame();
 
-    const diceInterval = setInterval(() => {
-      setDiceAnimation(true)
-      setTimeout(() => setDiceAnimation(false), 600)
-    }, 4000)
-
-    return () => {
-      clearInterval(messageInterval)
-      clearInterval(diceInterval)
+    if (playerName === defaultPlayerName) {
+      setShowNameForm(true);
+    } else {
+      navigate({
+        to: '/game',
+      });
     }
-  }, [])
+  }
 
   return (
-    <section className="container mx-auto flex flex-col items-center justify-center gap-12 min-h-svh text-white relative overflow-hidden">
-      <header className="flex flex-col gap-6 text-center z-10 max-w-4xl px-4">
-        <div className="relative">
-          <h1
-            className={`flex flex-col gap-4 text-7xl pb-8 md:text-8xl font-bold transition-transform duration-600 ${
-              diceAnimation ? 'scale-110 rotate-2' : ''
-            }`}
-          >
-            <span>🎲</span>YAHTZEE<span>🎲</span>
+    <section className="flex items-center justify-center min-h-svh bg-linear-to-br from-blue-200 to-purple-300">
+      <div className="container max-w-2xl flex flex-col items-center gap-6 text-center">
+        <div className="bg-white/70 backdrop-blur-md rounded-3xl p-10 shadow-2xl flex flex-col items-center gap-6 md:ga-8 border border-white/40">
+          <h1 className="text-5xl font-bold mb-6 text-gray-800 text-center transition-transform duration-600">
+            <motion.div
+              animate={{
+                borderRadius: ['0%', '0%', '50%', '50%', '0%'],
+                rotate: [0, 0, 180, 180, 0],
+                scale: [1, 2, 2, 1, 1],
+              }}
+              transition={{
+                duration: 2,
+                ease: 'easeInOut',
+                repeat: Infinity,
+                repeatDelay: 5,
+                times: [0, 0.2, 0.5, 0.8, 1],
+              }}
+            >
+              🎲
+            </motion.div>
+            <span className="block mt-4">Yahtzee</span>
           </h1>
-          <div className="absolute -top-4 -right-4 text-2xl animate-pulse">
-            ✨
+          <Quotes />
+          <Button
+            className="bg-purple-600 font-bold tracking-wide text-lg hover:bg-purple-700 active:scale-90"
+            onClick={handleClick}
+          >
+            Start Game
+          </Button>
+          <div className="grid w-full gap-3 sm:grid-cols-2">
+            <p className="rounded-2xl border border-purple-200/60 bg-purple-50/60 px-4 py-3 text-sm text-purple-700 shadow-inner">
+              <span className="font-semibold">High Score:</span> {highestScore}
+            </p>
+            <p className="rounded-2xl border border-blue-200/60 bg-blue-50/60 px-4 py-3 text-sm text-blue-700 shadow-inner truncate">
+              <span className="font-semibold">Player:</span> {playerName || 'Guest Roller'}
+            </p>
           </div>
         </div>
-
-        <p className="text-xl md:text-2xl font-medium text-blue-200 transition-all duration-500 min-h-[3rem] flex items-center justify-center">
-          {funnyMessages[currentMessage]}
-        </p>
-
-        <div className="text-sm text-gray-300 space-y-1">
-          <p className="text-xs opacity-75">
-            Warning: May cause uncontrollable excitement and victory dances
-          </p>
+        <div className="max-w-md rounded-full bg-white/70 px-6 py-3 text-center text-xs font-medium text-gray-600 shadow-lg">
+          Tip: Tap dice to hold them between rolls. Legendary streaks earn a burst of confetti.
         </div>
-      </header>
-
-      <div className="flex flex-col gap-6 items-center z-10">
-        <Link
-          to="/game"
-          className="group relative px-12 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white text-xl font-bold rounded-full shadow-2xl hover:shadow-green-500/25 transform hover:scale-105 transition-all duration-300 hover:from-green-400 hover:to-emerald-500"
-        >
-          <span className="relative z-10">
-            <div className="inline-block animate-bounce">🚀</div> Start Your
-            Adventure!
-          </span>
-          <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"></div>
-        </Link>
       </div>
-
-      {/* Bottom decoration */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-xs text-gray-500 text-center">
-        <p>Made with a lot of ☕</p>
-        <p className="mt-1">May the odds be ever in your favour! 🍀</p>
-      </div>
+      <UserDrawerDialog onOpenChange={setShowNameForm} openProp={showNameForm} />
     </section>
-  )
+  );
 }
