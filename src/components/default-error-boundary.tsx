@@ -1,4 +1,3 @@
-// import { QueryErrorResetBoundary } from '@tanstack/react-query'
 import {
   type ErrorComponentProps,
   Link,
@@ -40,7 +39,6 @@ export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
             <div className="grid grid-cols-2 gap-4">
               <button
                 onClick={() => {
-                  // reset();
                   router.invalidate();
                 }}
                 type="button"

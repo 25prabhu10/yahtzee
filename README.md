@@ -24,13 +24,13 @@ On each turn, roll the dice up to 3 times to get the highest scoring combination
 #### Upper Section (Ones through Sixes)
 
 - **Ones**: Sum of all dice showing 1
-- **Twos**: Sum of all dice showing 2  
+- **Twos**: Sum of all dice showing 2
 - **Threes**: Sum of all dice showing 3
 - **Fours**: Sum of all dice showing 4
 - **Fives**: Sum of all dice showing 5
 - **Sixes**: Sum of all dice showing 6
 
-_Bonus: If upper section total ≥ 63 points, add 35 bonus points_
+Bonus: _If upper section total ≥ 63 points, add 35 bonus points_
 
 #### Lower Section (Combinations)
 
@@ -49,4 +49,5 @@ _Bonus: If upper section total ≥ 63 points, add 35 bonus points_
 - **Scratching**: If you can't score in any category, you must enter 0 in a category of your choice
 
 ### Winning
+
 The player with the highest total score (including bonuses) after all 13 categories are filled wins the game.

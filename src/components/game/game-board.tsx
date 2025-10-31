@@ -30,7 +30,7 @@ export function GameBoard() {
   });
 
   return (
-    <div className="w-full grid grid-cols-2 grid-rows-7 gap-2">
+    <div className="w-full shadow-xl bg-chart-2/10 rounded-md py-4 px-2 min-h-0 grid grid-cols-2 grid-rows-7 gap-1 xs:gap-2 md:gap-3">
       {scoreBoards}
       <BonusBox />
     </div>

@@ -49,11 +49,14 @@ export function DiceRow({ rollsLeft }: DiceRowProps) {
   const diceSquares = squares.map((idx) => <Dice index={idx} key={idx} toggleHold={toggleHold} />);
 
   return (
-    <div className="grid grid-cols-5 gap-3 py-2 justify-center items-center" ref={diceRowRef}>
+    <div
+      className="w-full grid grid-cols-5 grid-rows-1 gap-1 xs:gap-2 md:gap-3 items-center justify-center"
+      ref={diceRowRef}
+    >
       {rollsLeft === 3 ? (
         squares.map((idx) => (
           <div
-            className="aspect-square w-full sm:size-16 md:size-20 lg:size-28 text-xs text-blue-800 font-bold rounded-md shadow-inner border border-dashed border-blue-800 transition flex justify-center items-center bg-blue-50 justify-self-center"
+            className="aspect-square text-xs xs:text-sm text-blue-800 font-bold rounded-md shadow-inner border border-dashed border-blue-800 transition inline-flex justify-center items-center p-4 bg-blue-50 max-h-[calc(100vh/12)]"
             key={idx}
           >
             READY

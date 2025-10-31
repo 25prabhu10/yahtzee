@@ -24,9 +24,11 @@ export type Category =
   | 'Yahtzee'
   | '?';
 
+type Scores = Record<Category, number | null>;
+
 export interface Player {
   name: string;
-  scores: Record<Category, number | null>;
+  scores: Scores;
   totalScore: number;
   upperSectionScore: number;
   yahtzeeBonus: number;
@@ -124,14 +126,14 @@ export function calculateScore(
   }
 }
 
-function calculateTotalScore(player: Player): number {
+function calculateTotalScore(scores: Scores): number {
   let total = 0;
   let upperSectionSum = 0;
 
   // Upper section
   const upperCategories: Category[] = ['1', '2', '3', '4', '5', '6'];
   upperCategories.forEach((category) => {
-    const score = player.scores[category];
+    const score = scores[category];
     if (score !== null) {
       total += score;
       upperSectionSum += score;
@@ -146,7 +148,7 @@ function calculateTotalScore(player: Player): number {
   // Lower section
   const lowerCategories: Category[] = ['3x', '4x', '🏠', 'Small', 'Large', 'Yahtzee', '?'];
   lowerCategories.forEach((category) => {
-    const score = player.scores[category];
+    const score = scores[category];
     if (score !== null) {
       total += score;
     }
@@ -248,7 +250,8 @@ export const useGameStore = create<GameState & GameActions>()(
         };
 
         updatedPlayer.yahtzeeBonus += bonus;
-        updatedPlayer.totalScore = calculateTotalScore(updatedPlayer) + updatedPlayer.yahtzeeBonus;
+        updatedPlayer.totalScore =
+          calculateTotalScore(updatedPlayer.scores) + updatedPlayer.yahtzeeBonus;
         updatedPlayer.upperSectionScore = ['1', '2', '3', '4', '5', '6'].reduce(
           (sum, cat) => sum + (updatedPlayer.scores[cat as Category] || 0),
           0

@@ -9,7 +9,7 @@ export const Route = createRootRoute({
       <MotionConfig reducedMotion="user">
         <Outlet />
       </MotionConfig>
-      {import.meta.env.DEV ? (
+      {import.meta.env.DEV && (
         <TanStackDevtools
           config={{
             position: 'bottom-right',
@@ -21,7 +21,7 @@ export const Route = createRootRoute({
             },
           ]}
         />
-      ) : null}
+      )}
     </main>
   ),
 });

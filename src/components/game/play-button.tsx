@@ -1,6 +1,6 @@
-import { useGameStore } from '@/stores/game-store';
+import { Button } from '@components/ui/button';
 
-import { Button } from '../ui/button';
+import { useGameStore } from '@/stores/game-store';
 
 export function PlayButton() {
   const isCategorySelected = useGameStore((state) => state.selectedCategory !== null);

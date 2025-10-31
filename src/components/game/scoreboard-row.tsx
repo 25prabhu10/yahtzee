@@ -24,22 +24,24 @@ export default function ScoreBoardRow({
 }: ScoreBoardRowProps) {
   const isScored = score !== null;
   const canScore = !isScored && rollsLeft < 3;
+  const isDisabled = isScored || !canScore;
+
   return (
     <div
       className={cn(
-        `grid grid-cols-2 grid-rows-1 gap-2 text-base md:text-xl rounded-md`,
-
+        'grid grid-cols-2 grid-rows-1 gap-1 xs:gap-2 text-base md:text-xl rounded-md',
         className
       )}
       {...props}
     >
       <button
         className={cn(
-          'justify-self-end flex items-center justify-center font-bold text-wrap bg-amber-200 aspect-square size-14 xs:size-16 sm:size-18 md:size-22 lg:size-30 rounded-md shadow-md cursor-pointer',
-          isScored && 'cursor-not-allowed'
+          'justify-self-end flex items-center justify-center font-bold text-wrap bg-amber-200 aspect-square rounded-md shadow-md cursor-pointer transition-colors max-h-[calc(100vh/12)]',
+          isScored ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'
         )}
+        disabled={isDisabled}
         onClick={() => {
-          if (!isScored && canScore) {
+          if (!isDisabled) {
             setSelectedCategory(cat);
           }
         }}
@@ -48,12 +50,15 @@ export default function ScoreBoardRow({
       </button>
       <button
         className={cn(
-          'justify-self-start flex items-center justify-center text-center font-extrabold rounded-md shadow-md aspect-square size-14 xs:size-16 sm:size-18 md:size-22 lg:size-30 cursor-pointer',
-          isScored ? 'cursor-not-allowed bg-fuchsia-200' : 'bg-blue-50',
-          isSelected && 'shadow-md bg-white ring-4 ring-blue-800/50'
+          'justify-self-start flex items-center justify-center font-bold text-wrap bg-amber-200 aspect-square rounded-md shadow-md cursor-pointer transition-colors max-h-[calc(100vh/12)]',
+          isScored
+            ? 'cursor-not-allowed bg-fuchsia-200'
+            : 'cursor-pointer bg-blue-50 hover:bg-blue-100',
+          isSelected && 'shadow-lg bg-white ring-4 ring-blue-800/50'
         )}
+        disabled={isDisabled}
         onClick={() => {
-          if (!isScored && canScore) {
+          if (!isDisabled) {
             setSelectedCategory(cat);
           }
         }}

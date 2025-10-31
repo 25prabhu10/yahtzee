@@ -7,7 +7,7 @@ import dice3 from '@/assets/dice-3.svg';
 import dice4 from '@/assets/dice-4.svg';
 import dice5 from '@/assets/dice-5.svg';
 import dice6 from '@/assets/dice-6.svg';
-import { type Category } from '@/stores/game-store';
+import { type Category } from '@/store/game-store';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

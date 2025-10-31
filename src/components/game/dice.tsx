@@ -14,8 +14,9 @@ export function Dice({ index, toggleHold }: DiceProps) {
   return (
     <motion.button
       animate={{ opacity: 1, rotateX: 0 }}
-      className={`aspect-square w-full sm:size-16 md:size-20 lg:size-28 text-2xl font-bold rounded-md cursor-pointer shadow-md transition-transform duration-200 justify-self-center ${die.isHeld ? 'bg-orange-500 ring-4 ring-orange-200/50' : 'bg-orange-50 hover:-translate-y-1'
-        }`}
+      className={`aspect-square font-bold rounded-md cursor-pointer shadow-md transition-transform duration-200 max-h-[calc(100vh/12)]  justify-self-center ${
+        die.isHeld ? 'bg-orange-500 ring-4 ring-orange-200/50' : 'bg-orange-50 hover:-translate-y-1'
+      }`}
       exit={{ opacity: 0, rotateX: 90 }}
       initial={{ opacity: 0, rotateX: -90 }}
       onClick={() => toggleHold(die.id)}

@@ -52,7 +52,7 @@ export function UserDrawerDialog({ openProp, onOpenChange }: UserDrawerDialogPro
             Edit Profile
           </Button>
         </DialogTrigger>
-        <DialogContent className="data-[state=open]:zoom-in-0! data-[state=open]:duration-600 sm:max-w-[425px]">
+        <DialogContent className="data-[state=open]:slide-in-from-bottom-full! data-[state=open]:duration-600 sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Edit profile</DialogTitle>
             <DialogDescription>

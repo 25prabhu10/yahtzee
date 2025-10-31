@@ -6,7 +6,7 @@ export function HighScoreBadge() {
   const highestScore = useGameStore((state) => state.highestScore);
 
   return (
-    <Badge className="bg-yellow-400/20 text-yellow-800 border-0 px-3 py-1 font-semibold">
+    <Badge className="bg-yellow-400/40 text-yellow-900 border-0 px-3 py-1 font-semibold">
       High Score: {highestScore}
     </Badge>
   );
