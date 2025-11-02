@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { motion } from 'motion/react';
-import { useState } from 'react';
+import { startTransition, useEffect, useRef, useState } from 'react';
 
 import { Quotes } from '@/components/home/quotes';
 import { Button } from '@/components/ui/button';
@@ -13,6 +13,7 @@ export const Route = createFileRoute('/')({
 });
 
 function Index() {
+  const btnRef = useRef<HTMLButtonElement | null>(null);
   const [showNameForm, setShowNameForm] = useState(false);
   const resetGame = useGameStore((state) => state.resetGame);
   const playerName = useGameStore((state) => state.player.name);
@@ -20,16 +21,24 @@ function Index() {
 
   const navigate = useNavigate({ from: '/' });
 
-  function handleClick() {
-    resetGame();
-
-    if (playerName === defaultPlayerName) {
-      setShowNameForm(true);
-    } else {
-      navigate({
-        to: '/game',
-      });
+  useEffect(() => {
+    if (btnRef.current) {
+      btnRef.current.focus();
     }
+  }, []);
+
+  function handleClick() {
+    startTransition(() => {
+      resetGame();
+
+      if (playerName === defaultPlayerName) {
+        setShowNameForm(true);
+      } else {
+        navigate({
+          to: '/game',
+        });
+      }
+    });
   }
 
   return (
@@ -59,6 +68,7 @@ function Index() {
           <Button
             className="bg-purple-600 font-bold tracking-wide text-lg hover:bg-purple-700 active:scale-90"
             onClick={handleClick}
+            ref={btnRef}
           >
             Start Game
           </Button>

@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 import diceAudio from '@/assets/dice-roll.mp3';
 import { Button } from '@/components/ui/button';
-import { useGameStore } from '@/store/game-store';
+import { useGameStore } from '@/stores/game-store';
 
 type DiceRollButtonProps = {
   rollsLeft: number;
