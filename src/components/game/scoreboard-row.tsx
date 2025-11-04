@@ -1,29 +1,30 @@
-import { cn, getDisplayContent } from '@/lib/utils';
-import { type Category } from '@/stores/game-store';
+import { cn } from '@/lib/utils';
+import { type Category, calculateScore, useGameStore } from '@/stores/game-store';
+
+import { IconButton } from './icon-button';
+import { ScoreButton } from './score-button';
 
 interface ScoreBoardRowProps extends React.HTMLAttributes<HTMLDivElement> {
   cat: Category;
-  score: number | null;
-  yahtzeeCount: number;
-  rollsLeft: number;
-  isSelected: boolean;
-  potentialScore: number;
   setSelectedCategory: (cat: Category) => void;
 }
 
-export default function ScoreBoardRow({
+export function ScoreBoardRow({
   cat,
   className,
-  isSelected,
-  potentialScore,
-  rollsLeft,
-  score,
   setSelectedCategory,
-  yahtzeeCount,
   ...props
 }: ScoreBoardRowProps) {
+  const rollingStarted = useGameStore((state) => state.rollsLeft < 3);
+  const score = useGameStore((state) => state.player.scores[cat]);
+  const potentialScore = useGameStore((state) =>
+    state.player.scores[cat] !== null
+      ? 0
+      : calculateScore(cat, state.diceValues, state.player.yahtzeeCount > 0)
+  );
+
   const isScored = score !== null;
-  const canScore = !isScored && rollsLeft < 3;
+  const canScore = !isScored && rollingStarted;
   const isDisabled = isScored || !canScore;
 
   return (
@@ -34,43 +35,21 @@ export default function ScoreBoardRow({
       )}
       {...props}
     >
-      <button
-        className={cn(
-          'justify-self-end flex items-center justify-center font-bold text-wrap bg-amber-200 aspect-square rounded-md shadow-md cursor-pointer transition-colors max-h-[calc(100vh/12)]',
-          isScored ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'
-        )}
-        disabled={isDisabled}
-        onClick={() => {
-          if (!isDisabled) {
-            setSelectedCategory(cat);
-          }
-        }}
-      >
-        {getDisplayContent(cat, yahtzeeCount)}
-      </button>
-      <button
-        className={cn(
-          'justify-self-start flex items-center justify-center font-bold text-wrap bg-amber-200 aspect-square rounded-md shadow-md cursor-pointer transition-colors max-h-[calc(100vh/12)]',
-          isScored
-            ? 'cursor-not-allowed bg-fuchsia-200'
-            : 'cursor-pointer bg-blue-50 hover:bg-blue-100',
-          isSelected && 'shadow-lg bg-white ring-4 ring-blue-800/50'
-        )}
-        disabled={isDisabled}
-        onClick={() => {
-          if (!isDisabled) {
-            setSelectedCategory(cat);
-          }
-        }}
-      >
-        {isScored ? (
-          score
-        ) : canScore ? (
-          <span className={isSelected ? 'text-blue-600' : 'text-green-600'}>{potentialScore}</span>
-        ) : (
-          ''
-        )}
-      </button>
+      <IconButton
+        cat={cat}
+        isDisabled={isDisabled}
+        isScored={isScored}
+        setSelectedCategory={setSelectedCategory}
+      />
+      <ScoreButton
+        canScore={canScore}
+        cat={cat}
+        isDisabled={isDisabled}
+        isScored={isScored}
+        potentialScore={potentialScore}
+        score={score}
+        setSelectedCategory={setSelectedCategory}
+      />
     </div>
   );
 }

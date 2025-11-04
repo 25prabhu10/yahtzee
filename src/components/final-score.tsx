@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
+import { Button } from '@/components/ui/button';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { useGameStore } from '@/stores/game-store';
 
-import { Button } from './ui/button';
 import {
   Dialog,
   DialogContent,

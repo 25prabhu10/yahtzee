@@ -8,6 +8,13 @@ import { useGameStore } from '@/stores/game-store';
 
 export const Route = createFileRoute('/game')({
   component: Game,
+  head: () => ({
+    meta: [
+      {
+        title: 'Yahtzee | Game',
+      },
+    ],
+  }),
 });
 
 function Game() {

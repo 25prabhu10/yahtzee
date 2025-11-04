@@ -1,6 +1,5 @@
+import { Badge } from '@/components/ui/badge';
 import { useGameStore } from '@/stores/game-store';
-
-import { Badge } from './ui/badge';
 
 export function HighScoreBadge() {
   const highestScore = useGameStore((state) => state.highestScore);

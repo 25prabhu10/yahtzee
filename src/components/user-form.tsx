@@ -1,11 +1,10 @@
 import { useNavigate } from '@tanstack/react-router';
 
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { useGameStore } from '@/stores/game-store';
-
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
 
 export function UserForm({ className }: React.ComponentProps<'form'>) {
   const navigate = useNavigate();

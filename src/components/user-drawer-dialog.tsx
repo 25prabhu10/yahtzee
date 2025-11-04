@@ -19,9 +19,8 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
+import { UserForm } from '@/components/user-form';
 import { useMediaQuery } from '@/hooks/use-media-query';
-
-import { UserForm } from './user-form';
 
 type UserDrawerDialogProps = {
   openProp?: boolean;
