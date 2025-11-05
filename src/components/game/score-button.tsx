@@ -1,5 +1,6 @@
-import { cn } from '@/lib/utils';
-import { type Category, useGameStore } from '@/stores/game-store';
+import { calculateScore, cn } from '@/lib/utils';
+import { useGameStore } from '@/stores/game-store';
+import type { Category } from '@/types';
 
 type ScoreButtonProps = {
   cat: Category;
@@ -7,7 +8,6 @@ type ScoreButtonProps = {
   isDisabled: boolean;
   score: number | null;
   canScore: boolean;
-  potentialScore: number;
   setSelectedCategory: (cat: Category) => void;
 };
 
@@ -17,10 +17,14 @@ export function ScoreButton({
   setSelectedCategory,
   cat,
   score,
-  potentialScore,
   canScore,
 }: ScoreButtonProps) {
   const isSelected = useGameStore((state) => state.selectedCategory === cat);
+  const potentialScore = useGameStore((state) =>
+    state.player.scores[cat] !== null
+      ? 0
+      : calculateScore(cat, state.dice, state.player.yahtzeeCount > 0)
+  );
 
   return (
     <button

@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils';
-import { type Category, calculateScore, useGameStore } from '@/stores/game-store';
+import { useGameStore } from '@/stores/game-store';
+import type { Category } from '@/types';
 
 import { IconButton } from './icon-button';
 import { ScoreButton } from './score-button';
@@ -17,11 +18,6 @@ export function ScoreBoardRow({
 }: ScoreBoardRowProps) {
   const rollingStarted = useGameStore((state) => state.rollsLeft < 3);
   const score = useGameStore((state) => state.player.scores[cat]);
-  const potentialScore = useGameStore((state) =>
-    state.player.scores[cat] !== null
-      ? 0
-      : calculateScore(cat, state.diceValues, state.player.yahtzeeCount > 0)
-  );
 
   const isScored = score !== null;
   const canScore = !isScored && rollingStarted;
@@ -46,7 +42,6 @@ export function ScoreBoardRow({
         cat={cat}
         isDisabled={isDisabled}
         isScored={isScored}
-        potentialScore={potentialScore}
         score={score}
         setSelectedCategory={setSelectedCategory}
       />

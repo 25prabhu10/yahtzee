@@ -1,4 +1,5 @@
-import { categories, useGameStore } from '@/stores/game-store';
+import { categories } from '@/lib/constants';
+import { useGameStore } from '@/stores/game-store';
 
 import { BonusBox } from './bonus-box';
 import { ScoreBoardRow } from './scoreboard-row';

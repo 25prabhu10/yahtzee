@@ -81,7 +81,7 @@ function Index() {
             </p>
           </div>
         </div>
-        <div className="max-w-md rounded-full bg-white/70 px-6 py-3 text-center text-xs font-medium text-gray-600 shadow-lg">
+        <div className="rounded-full bg-white/70 px-6 py-3 text-center text-xs font-medium text-gray-600 shadow-lg">
           Tip: Tap dice to hold them between rolls. Legendary streaks earn a burst of confetti.
         </div>
       </div>

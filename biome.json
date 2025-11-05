@@ -33,7 +33,14 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!node_modules", "!dist", "!.cache", "!routeTree.gen.ts", "!styles.css"]
+    "includes": [
+      "**",
+      "!node_modules",
+      "!dist",
+      "!.cache",
+      "!src/routeTree.gen.ts",
+      "!src/styles.css"
+    ]
   },
   "formatter": {
     "enabled": true,

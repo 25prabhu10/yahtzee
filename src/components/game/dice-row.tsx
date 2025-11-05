@@ -16,7 +16,7 @@ export function DiceRow({ rollsLeft }: DiceRowProps) {
   const diceRowRef = useRef<HTMLDivElement>(null);
   const toggleHold = useGameStore((state) => state.toggleHold);
   const achievedYahtzee = useGameStore((state) => {
-    return state.diceValues.every((value) => value === state.diceValues[0]);
+    return state.dice.every((value) => value === state.dice[0]);
   });
 
   useEffect(() => {

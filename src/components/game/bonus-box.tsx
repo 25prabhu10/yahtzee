@@ -6,7 +6,7 @@ export function BonusBox() {
   return (
     <div className="grid grid-cols-2 grid-rows-1 gap-1 xs:gap-2 text-base md:text-xl rounded-md">
       <p
-        className={`flex items-center justify-center font-bold text-wrap text-white text-xl aspect-square max-h-[calc(100vh/12)] rounded-md shadow-md ${
+        className={`justify-self-end flex items-center justify-center font-bold text-wrap text-white text-xl aspect-square max-h-[calc(100vh/12)] rounded-md shadow-md ${
           upperSectionScore >= 63 ? 'bg-green-600' : 'bg-blue-600/50'
         }`}
       >
