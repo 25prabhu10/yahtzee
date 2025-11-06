@@ -8,7 +8,7 @@ import '../../styles-test-setup.css';
 
 describe('Badge', () => {
   test('renders with default variant', async () => {
-    const { getByRole, getByText } = await render(<Badge>Default Badge</Badge>);
+    const { getByText } = await render(<Badge>Default Badge</Badge>);
     await expect.element(getByText('Default Badge')).toBeInTheDocument();
     await expect
       .element(getByText('Default Badge'))
@@ -18,9 +18,7 @@ describe('Badge', () => {
   });
 
   test('renders with destructive variant', async () => {
-    const { getByRole, getByText } = await render(
-      <Badge variant="destructive">Destructive Badge</Badge>
-    );
+    const { getByText } = await render(<Badge variant="destructive">Destructive Badge</Badge>);
     await expect.element(getByText('Destructive Badge')).toBeInTheDocument();
     await expect
       .element(getByText('Destructive Badge'))
@@ -30,7 +28,7 @@ describe('Badge', () => {
   });
 
   test('renders with outline variant', async () => {
-    const { getByRole, getByText } = await render(<Badge variant="outline">Outline Badge</Badge>);
+    const { getByText } = await render(<Badge variant="outline">Outline Badge</Badge>);
     await expect.element(getByText('Outline Badge')).toBeInTheDocument();
     await expect
       .element(getByText('Outline Badge'))
@@ -40,9 +38,7 @@ describe('Badge', () => {
   });
 
   test('renders with secondary variant', async () => {
-    const { getByRole, getByText } = await render(
-      <Badge variant="secondary">Secondary Badge</Badge>
-    );
+    const { getByText } = await render(<Badge variant="secondary">Secondary Badge</Badge>);
     await expect.element(getByText('Secondary Badge')).toBeInTheDocument();
     await expect
       .element(getByText('Secondary Badge'))

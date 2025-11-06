@@ -24,7 +24,7 @@ function Game() {
 
   return (
     <>
-      <section className="container max-w-2xl mx-auto flex flex-col items-center justify-between min-h-svh gap-2 xs:gap-4 p-4">
+      <section className="container max-w-2xl mx-auto flex flex-col items-center justify-between max-h-svh gap-2 xs:gap-4 p-4">
         <GameHeader />
         <GameBoard />
         <GameAction />

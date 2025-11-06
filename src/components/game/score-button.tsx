@@ -26,21 +26,23 @@ export function ScoreButton({
       : calculateScore(cat, state.dice, state.player.yahtzeeCount > 0)
   );
 
+  function handleScoring() {
+    if (!isDisabled) {
+      setSelectedCategory(cat);
+    }
+  }
+
   return (
     <button
       className={cn(
-        'flex items-center justify-center font-bold text-wrap bg-amber-200 aspect-square rounded-md shadow-md cursor-pointer transition-colors max-h-[calc(100vh/12)]',
+        'justify-self-start flex items-center justify-center font-bold text-wrap bg-amber-200 aspect-square rounded-md shadow-md cursor-pointer transition-colors max-h-[calc(100vh/12)]',
         isScored
           ? 'cursor-not-allowed bg-fuchsia-200'
           : 'cursor-pointer bg-blue-50 hover:bg-blue-100',
         isSelected && 'shadow-lg bg-white ring-4 ring-blue-800/50'
       )}
       disabled={isDisabled}
-      onClick={() => {
-        if (!isDisabled) {
-          setSelectedCategory(cat);
-        }
-      }}
+      onClick={handleScoring}
     >
       {isScored ? (
         score

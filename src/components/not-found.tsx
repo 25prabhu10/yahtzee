@@ -3,6 +3,11 @@ import { ArrowLeft, Home, Search } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 export function NotFound({ children }: { children?: ReactNode }) {
+  function handleBack(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+    e.preventDefault();
+    globalThis.history.back();
+  }
+
   return (
     <div className="flex items-center justify-center bg-linear-to-br from-primary/10 via-accent/5 to-secondary/10 py-20 lg:py-32">
       <section className="container">
@@ -39,13 +44,7 @@ export function NotFound({ children }: { children?: ReactNode }) {
                   Go Home
                 </button>
               </Link>
-              <Link
-                onClick={(e) => {
-                  e.preventDefault();
-                  globalThis.history.back();
-                }}
-                to="/"
-              >
+              <Link onClick={handleBack} to="/">
                 <button className="flex items-center justify-center w-full bg-gray-600 active:scale-90 text-white font-bold tracking-wide px-6 py-3 rounded-lg text-lg hover:bg-gray-700 cursor-pointer transition-all">
                   <ArrowLeft className="h-4 w-4 mr-2" />
                   Go Back

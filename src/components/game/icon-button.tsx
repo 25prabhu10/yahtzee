@@ -12,6 +12,12 @@ type IconButtonProps = {
 export function IconButton({ isScored, isDisabled, setSelectedCategory, cat }: IconButtonProps) {
   const yahtzeeCount = useGameStore((state) => state.player.yahtzeeCount);
 
+  function handleCategorySelection() {
+    if (!isDisabled) {
+      setSelectedCategory(cat);
+    }
+  }
+
   return (
     <button
       className={cn(
@@ -19,11 +25,7 @@ export function IconButton({ isScored, isDisabled, setSelectedCategory, cat }: I
         isScored ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'
       )}
       disabled={isDisabled}
-      onClick={() => {
-        if (!isDisabled) {
-          setSelectedCategory(cat);
-        }
-      }}
+      onClick={handleCategorySelection}
     >
       {getDisplayContent(cat, yahtzeeCount)}
     </button>

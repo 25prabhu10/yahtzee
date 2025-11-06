@@ -14,6 +14,15 @@ export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
     strict: false,
   });
 
+  function handleTryAgain() {
+    router.invalidate();
+  }
+
+  function handleBack(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+    e.preventDefault();
+    globalThis.history.back();
+  }
+
   return (
     <article className="flex-1 py-8">
       <div className="container mx-auto px-4">
@@ -37,12 +46,7 @@ export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
               )}
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <button
-                onClick={() => {
-                  router.invalidate();
-                }}
-                type="button"
-              >
+              <button onClick={handleTryAgain} type="button">
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Try Again
               </button>
@@ -55,13 +59,7 @@ export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
                 </button>
               ) : (
                 <button>
-                  <Link
-                    onClick={(e) => {
-                      e.preventDefault();
-                      globalThis.history.back();
-                    }}
-                    to="/"
-                  >
+                  <Link onClick={handleBack} to="/">
                     <ArrowLeft className="h-4 w-4 mr-2" />
                     Go Back
                   </Link>
