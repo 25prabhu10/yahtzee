@@ -28,17 +28,17 @@ function Index() {
   }, []);
 
   function handleClick() {
-    startTransition(() => {
-      resetGame();
+    resetGame();
 
-      if (playerName === defaultPlayerName) {
-        setShowNameForm(true);
-      } else {
+    if (playerName === defaultPlayerName) {
+      setShowNameForm(true);
+    } else {
+      startTransition(() => {
         navigate({
           to: '/game',
         });
-      }
-    });
+      });
+    }
   }
 
   return (
@@ -85,7 +85,11 @@ function Index() {
           Tip: Tap dice to hold them between rolls. Legendary streaks earn a burst of confetti.
         </div>
       </div>
-      <UserDrawerDialog onOpenChange={setShowNameForm} openProp={showNameForm} />
+      <UserDrawerDialog
+        isNewUser={playerName === defaultPlayerName}
+        onOpenChange={setShowNameForm}
+        openProp={showNameForm}
+      />
     </section>
   );
 }

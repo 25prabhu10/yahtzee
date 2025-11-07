@@ -1,4 +1,4 @@
-import type { Category } from '@/types';
+import type { Category, UpperSection } from '@/types';
 
 export const defaultPlayerName = 'Guest Roller';
 
@@ -18,5 +18,6 @@ export const categories: Category[] = [
   '?',
 ] as const;
 
+export const diceValues: UpperSection[] = ['1', '2', '3', '4', '5', '6'] as const;
 export const initialDice = [1, 2, 3, 4, 5];
 export const initialHeldDice = initialDice.map(() => false);

@@ -1,13 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import {
   Drawer,
@@ -17,7 +18,6 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from '@/components/ui/drawer';
 import { UserForm } from '@/components/user-form';
 import { useMediaQuery } from '@/hooks/use-media-query';
@@ -25,65 +25,94 @@ import { useMediaQuery } from '@/hooks/use-media-query';
 type UserDrawerDialogProps = {
   openProp?: boolean;
   onOpenChange?: (open: boolean) => void;
+  isNewUser?: boolean;
 };
 
-export function UserDrawerDialog({ openProp, onOpenChange }: UserDrawerDialogProps) {
-  const [internalOpen, setInternalOpen] = useState(openProp ?? false);
+export function UserDrawerDialog({
+  openProp = false,
+  onOpenChange,
+  isNewUser = true,
+}: UserDrawerDialogProps) {
+  const [open, setOpen] = useState(openProp);
 
-  const isControlled = openProp !== undefined;
-  const open = isControlled ? (openProp as boolean) : internalOpen;
+  // Sync with parent's openProp changes
+  useEffect(() => {
+    setOpen(openProp);
+  }, [openProp]);
 
-  function setOpen(v: boolean) {
-    if (isControlled) {
-      onOpenChange?.(v);
-    } else {
-      setInternalOpen(v);
-    }
+  function handleOpenChange(newOpen: boolean) {
+    setOpen(newOpen);
+    onOpenChange?.(newOpen);
+  }
+
+  function handleSuccess() {
+    handleOpenChange(false);
   }
 
   const isDesktop = useMediaQuery('(min-width: 768px)');
 
+  const title = isNewUser ? 'Welcome to Yahtzee!' : 'Edit Profile';
+  const description = isNewUser
+    ? "Let's start by entering your name. You can always change it later."
+    : 'Update your name and save your changes.';
+
   if (isDesktop) {
     return (
-      <Dialog onOpenChange={setOpen} open={open}>
-        <DialogTrigger asChild>
-          <Button className="hidden" variant="outline">
-            Edit Profile
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="data-[state=open]:slide-in-from-bottom-full! data-[state=open]:duration-600 sm:max-w-[425px]">
+      <Dialog onOpenChange={handleOpenChange} open={open}>
+        <DialogContent
+          className="data-[state=open]:slide-in-from-bottom-full! data-[state=open]:duration-600 sm:max-w-[425px]"
+          onEscapeKeyDown={(e) => {
+            if (isNewUser) {
+              e.preventDefault(); // Prevent closing for new users
+            }
+          }}
+          onPointerDownOutside={(e) => {
+            if (isNewUser) {
+              e.preventDefault(); // Prevent closing for new users
+            }
+          }}
+        >
           <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here. Click save when you&apos;re done.
-            </DialogDescription>
+            <DialogTitle>{title}</DialogTitle>
+            <DialogDescription>{description}</DialogDescription>
           </DialogHeader>
-          <UserForm />
+          <UserForm onSuccess={handleSuccess} />
+          {!isNewUser && (
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button type="button" variant="outline">
+                  Cancel
+                </Button>
+              </DialogClose>
+            </DialogFooter>
+          )}
         </DialogContent>
       </Dialog>
     );
   }
 
   return (
-    <Drawer onOpenChange={setOpen} open={open}>
-      <DrawerTrigger asChild>
-        <Button className="hidden" variant="outline">
-          Edit Profile
-        </Button>
-      </DrawerTrigger>
+    <Drawer
+      onOpenChange={handleOpenChange}
+      open={open}
+      dismissible={!isNewUser}
+      modal={isNewUser}
+    >
       <DrawerContent>
         <DrawerHeader className="text-left">
-          <DrawerTitle>Edit profile</DrawerTitle>
-          <DrawerDescription>
-            Make changes to your profile here. Click save when you&apos;re done.
-          </DrawerDescription>
+          <DrawerTitle>{title}</DrawerTitle>
+          <DrawerDescription>{description}</DrawerDescription>
         </DrawerHeader>
-        <UserForm className="px-4" />
-        <DrawerFooter className="pt-2">
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose>
-        </DrawerFooter>
+        <UserForm className="px-4" onSuccess={handleSuccess} />
+        {!isNewUser && (
+          <DrawerFooter className="pt-2">
+            <DrawerClose asChild>
+              <Button type="button" variant="outline">
+                Cancel
+              </Button>
+            </DrawerClose>
+          </DrawerFooter>
+        )}
       </DrawerContent>
     </Drawer>
   );
